@@ -4,6 +4,7 @@ import openpyxl
 debt_value = input('Podaj wysokość zaciągniętego kredytu: ')
 interest_rate = input('Podaj oprocentowanie kredytu w %: ')
 due_monthly = input('Podaj wysokość miesięcznej raty kredytu: ')
+
 # Check if "," was used instead of "." as decimal point and change string into float
 if ',' in debt_value:
     debt_value = debt_value.replace(',', '.')
@@ -26,8 +27,9 @@ dataframe = openpyxl.load_workbook("Oprocentowanie_pozyczki_oszczednosci_na_konc
 
 # Define variable to read active sheet
 datasheet = dataframe.active  # since there's only one worksheet in the xlsx file it will always be the active one
+
 print('\nPozostałe zadłużenie w kolejnych miesiącach: ')
-# Iterate the loop to read 1the cell values
+# Iterate the loop to read the cell values and calculate remaining debt
 for row in range(3, datasheet.max_row+1):
     month = datasheet.cell(row, 1).value
     inflation = datasheet.cell(row, 2).value/100#.replace(',', '.')
