@@ -34,5 +34,6 @@ for row in range(3, datasheet.max_row+1):
     month = datasheet.cell(row, 1).value
     inflation = datasheet.cell(row, 2).value/100#.replace(',', '.')
     #inflation = float(inflation)/100
+    previous_debt_value = debt_value
     debt_value = debt_value*(1+interest_rate/12+inflation/12) - due_monthly
-    print(f'{month} : {debt_value}')
+    print(f'{month} : {debt_value}PLN. To {previous_debt_value - debt_value}PLN mniej niż w poprzednim miesiącu')
