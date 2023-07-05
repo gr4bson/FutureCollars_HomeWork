@@ -49,28 +49,36 @@ while ask_again:
         ask_again = True
         print('Podana wartośc jest <= 0. Spróbuj jeszcze raz.')
         continue
-    else:
-        ask_again = False
+    ask_again = False
     item_no = 1
     package_weight = 0
-    packages_sent = 0
-    package_no = 0
+    packages_sent = 1
+    package_no = 1
     item_weights = []
     max_package_space_left = 0
     while item_no <= items_to_send:
+        wrong_weight = False
+        first_item_weight_wrong = False
         try:
             item_weight = float(input(f'Podaj masę przedmiotu nr {item_no} w kg: '))
         except ValueError:
-            print('Nie podałeś/łaś masy lub podana masa jest <= 0. Spróbuj jeszcze raz.')
+            print('Nie podałeś/łaś masy przedmiotu. Spróbuj jeszcze raz.')
             continue
         if item_weight <= 0:
-            print('Nie podałeś/łaś masy lub podana masa jest <= 0. Spróbuj jeszcze raz.')
+            print('Podana masa przedmiotu = 0. Spróbuj jeszcze raz.')
             continue
-        if item_weight > 10 or item_weight < 1:
+        elif item_weight > 10 or item_weight < 1:
+            if sum(item_weights) == 0:
+                first_item_weight_wrong = True
+                print('Nie można wysyłać przedmiotów o wadze < 1kg lub > 10kg')
+                break
+            else:
+                wrong_weight = True
+                message = f'Waga przedmiotu {item_no} przekracza 10 kg lub jest poniżej 1 kg. Tego przedmiotu nie można wysłać.'
             break
         else:
             item_weights.append(item_weight)
-            if package_weight + item_weight >= 20:
+            if package_weight + item_weight > 20:
                 packages_sent += 1
                 current_package_space_left = 20 - package_weight
                 if current_package_space_left > max_package_space_left:
@@ -80,12 +88,20 @@ while ask_again:
             else:
                 package_weight += item_weight
         item_no += 1
-if not ask_again:
-    if len(item_weights) == 0:
-        print('Waga przedmiotu przekracza 10 kg lub jest poniżej 1 kg. Nie można wysłać paczki.')
+
+#the above loop does not add a package when the sum of all items added to that package = 20 kg
+#if sum(item_weights) % 20 != 0:
+#    packages_sent += 1
+#   package_no += 1
+
+
+if not first_item_weight_wrong:
+    empty_space = packages_sent * 20 - sum(item_weights)
+    print(f'Wysłano {packages_sent} paczek ważących łącznie {sum(item_weights)} kg')
+    print(f'Suma pustych kilogramów = {empty_space}')
+    if empty_space == 0:
+        print('Paczki wypełnione w 100%. Brak pustej przestrzeni')
     else:
-        packages_sent += 1
-        package_no += 1
-        print(f'Wysłano {packages_sent} paczek ważących łącznie {sum(item_weights)} kg')
-        print(f'Suma pustych kilogramów = {packages_sent * 20 - sum(item_weights)}')
         print(f'Najwięcej pustych kilogramów ma paczka {package_no}')
+    if wrong_weight:
+        print(message)
