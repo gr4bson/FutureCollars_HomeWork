@@ -44,7 +44,7 @@ class WeatherAPI:
         date = input("Podaj datę, dla której chcesz sprawdzić pogodę w formacie YYYY-mm-dd: ")
         pattern = r'^\d{4}-\d{2}-\d{2}$'
         if date == '':
-            date = datetime.date.today() + datetime.timedelta(days=1)
+            date = str(datetime.date.today() + datetime.timedelta(days=1))
             print(f'Nie podano daty. Przyjmuję dzień jutrzejszy, czyli: {date}')
         else:
             while not re.match(pattern, date):
