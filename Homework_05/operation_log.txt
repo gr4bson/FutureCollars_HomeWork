@@ -1,0 +1,1 @@
+Zmieniono saldo konta o: + 500.0 PLN.,Zakup 10.0 sztuk produktu: widelec.,Wyœwietlono stan magazynu.,Wyœwietlono listê zrealizowanych operacji.
