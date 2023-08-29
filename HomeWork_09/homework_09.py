@@ -32,9 +32,20 @@ import sys
 
 from file_handler import FileHandler
 
+ind = 1
+try:
+    while ind <= 3:
+        value_check = sys.argv[ind]
+        ind += 1
+except IndexError:
+    print(f'You did not provide necessary arguments to run program. Please rerun it as: '
+          f'python homework_09.py <input_file> <output_file> <change_1> <change_2> ... <change_n>')
+    sys.exit()
+
 input_file = sys.argv[1]
 output_file = sys.argv[2]
 list_of_changes = sys.argv[3:]
+
 
 file = FileHandler(input_file=input_file, output_file=output_file, list_of_changes=list_of_changes)
 file.check_file_extension()
